@@ -1,0 +1,4 @@
+﻿  p3q2.cpp
+C:\Users\JT\source\repos\Practical 03\Practical 03\p3q2.cpp(187,28): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+C:\Users\JT\source\repos\Practical 03\Practical 03\p3q2.cpp(188,27): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  Practical 03.vcxproj -> C:\Users\JT\source\repos\Practical 03\Debug\Practical 03.exe
