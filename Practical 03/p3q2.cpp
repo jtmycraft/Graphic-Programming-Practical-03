@@ -4,8 +4,9 @@
 #include <iostream>
 #include <conio.h>
 #include <string>
+#include <math.h>
 
-//#pragma comment (lib, "OpenGL32.lib")
+#pragma comment (lib, "OpenGL32.lib")
 
 #define WINDOW_TITLE "OpenGL Window"
 
@@ -14,6 +15,8 @@ float points[4][2] = {
 	{-0.1f, 0.05f}, {0.1f, 0.05f}, {0.1f, -0.05f}, {-0.1f, -0.05f}
 };
 float spd = 0, acc = 0, lvl = 0;
+
+float xDeg = 0, yTrans = 0;
 
 LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -50,18 +53,22 @@ LRESULT WINAPI WindowProcedure(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case VK_ESCAPE:
 			PostQuitMessage(0);
 			break;
-		case VK_LEFT:
 		case VK_UP:
+			xDeg += 1;
+			break;
+		case VK_DOWN:
+			xDeg -= 1;
+			break;
+		case VK_LEFT:
 			// Speed cap
-			if (acc < 0.25)
+			if (acc < 0.5)
 			{
 				acc += 0.05f;
 			}
 			break;
 		case VK_RIGHT:
-		case VK_DOWN:
 			// Speed cap
-			if (acc > -0.25)
+			if (acc > -0.5)
 			{
 				acc -= 0.05f;
 			}
@@ -118,75 +125,101 @@ void myCloud(float x_trans, float y_trans)
 	glTranslatef(x_trans, y_trans, 0);
 	glBegin(GL_TRIANGLE_FAN);
 	{
-		glVertex2f(0, 0.2f);
-		glVertex2f(0.1f, 0.15f);
-		glVertex2f(0.2f, 0.1f);
-		glVertex2f(0.25f, 0.12f);
-		glVertex2f(0.3f, 0);
-		glVertex2f(0.26f, -0.03f);
-		glVertex2f(0.2f, -0.05f);
-		glVertex2f(0.15F, -0.1f);
-		glVertex2f(0.06f, -0.09f);
-		glVertex2f(0, -0.15f);
-		glVertex2f(-0.1f, -0.15f);
-		glVertex2f(-0.15f, -0.1f);
-		glVertex2f(-0.2f, 0);
-		glVertex2f(-0.2f, 0.02f);
-		glVertex2f(-0.18f, 0.05f);
-		glVertex2f(-0.13f, 0.15f);
+		glVertex3f(0, 0.2f, 0.9f);
+		glVertex3f(0.1f, 0.15f, 0.9f);
+		glVertex3f(0.2f, 0.1f, 0.9f);
+		glVertex3f(0.25f, 0.12f, 0.9f);
+		glVertex3f(0.3f, 0, 0.9f);
+		glVertex3f(0.26f, -0.03f, 0.9f);
+		glVertex3f(0.2f, -0.05f, 0.9f);
+		glVertex3f(0.15F, -0.1f, 0.9f);
+		glVertex3f(0.06f, -0.09f, 0.9f);
+		glVertex3f(0, -0.15f, 0.9f);
+		glVertex3f(-0.1f, -0.15f, 0.9f);
+		glVertex3f(-0.15f, -0.1f, 0.9f);
+		glVertex3f(-0.2f, 0, 0.9f);
+		glVertex3f(-0.2f, 0.02f, 0.9f);
+		glVertex3f(-0.18f, 0.05f, 0.9f);
+		glVertex3f(-0.13f, 0.15f, 0.9f);
 	}
 	glEnd();
 }
 
-void myBone(float degree)
+void myBone(float xDeg, float zDeg)
 {
+	glPushMatrix();
 	glColor3ub(59, 37, 0);
+	glTranslatef(0, yTrans, 0);
+	glRotatef(xDeg, 1, 0, 0);
+	glRotatef(zDeg, 0, 0, 1);
 	glLineWidth(5);
-	glRotatef(degree, 0, 0, 1);
 	glBegin(GL_LINE_LOOP);
 	{
-		glVertex2f(0, 0.8f);
-		glVertex2f(0, -0.8f);
+		glVertex3f(0, 0.8f, -0.31f);
+		glVertex3f(0, 0, -0.31f);
 	}
 	glEnd();
+	glPopMatrix();
 }
 
-void myBlade(float degree)
+void myBlade(float xDeg, float zDeg)
 {
+	glPushMatrix();
 	glColor3ub(230, 230, 230);
-	glRotatef(degree, 0, 0, 1);
+	glTranslatef(0, yTrans, 0);
+	glRotatef(xDeg, 1, 0, 0);
+	glRotatef(zDeg, 0, 0, 1);
 	glBegin(GL_QUADS);
 	{
-		glVertex3f(-0.1f, 0.8f, 0.5f);
-		glVertex3f(0.1f, 0.8f, 0.5f);
-		glVertex3f(0.1f, 0.15f, 0.5f);
-		glVertex3f(-0.1f, 0.15f, 0.5f);
+		glVertex3f(-0.1f, 0.8f, -0.3f);
+		glVertex3f(0.1f, 0.8f, -0.3f);
+		glVertex3f(0.1f, 0.15f, -0.3f);
+		glVertex3f(-0.1f, 0.15f, -0.3f);
 	}
 	glEnd();
+	glPopMatrix();
 }
 
-void mySpinner(float degree)
+void mySpinner(float xDeg, float zDeg)
 {
+	glPushMatrix();
 	glColor3ub(59, 37, 0);
-	glRotatef(degree, 0, 0, 1);
+	glTranslatef(0, yTrans, 0);
+	glRotatef(xDeg, 1, 0, 0);
+	glRotatef(zDeg, 0, 0, 1);
 	glBegin(GL_QUADS);
 	{
-		glVertex3f(-0.05f, 0.05f, 0);
-		glVertex3f(0.05f, 0.05f, 0);
-		glVertex3f(0.05f, -0.05f, 0);
-		glVertex3f(-0.05f, -0.05f, 0);
+		glVertex3f(-0.05f, 0.05f, -0.311f);
+		glVertex3f(0.05f, 0.05f, -0.311f);
+		glVertex3f(0.05f, -0.05f, -0.311f);
+		glVertex3f(-0.05f, -0.05f, -0.311f);
 	}
 	glEnd();
+	glPopMatrix();
 }
 
 void myBuilding()
 {
-	glColor3ub(107, 57, 0);
+	glTranslatef(0, yTrans, 0);
+
+	glColor3ub(207, 185, 116);
+	glBegin(GL_TRIANGLE_FAN);
+	double PI = 3.141592654;
+	double angle = 0.0;
+	double radius = 0.3f;
+	int points = 120;
+	for (int i = 0; i < points; i++) {
+		angle = PI * i / points;
+		glVertex2f((float)cos(angle) * radius, (float)sin(angle) * radius);
+	}
+	glEnd();
+
+	glColor3ub(207, 185, 116);
 	glBegin(GL_QUADS);
 	{
-		glVertex3f(-0.15, 0.2f, 0);
-		glVertex3f(0.15, 0.2f, 0);
 		glVertex3f(0.3f, -0.2f, 0);
+		glVertex3f(0.3f, 0.03f, 0);
+		glVertex3f(-0.3f, 0.03f, 0);
 		glVertex3f(-0.3f, -0.2f, 0);
 	}
 	glEnd();
@@ -204,10 +237,15 @@ void myBuilding()
 
 void display()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(0, 167, 209, 0);
-	glMatrixMode(GL_MODELVIEW);
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glEnable(GL_DEPTH_TEST);
+
+	if (xDeg >= 87 && yTrans < 2 && abs(acc) >= 0.35) {
+		yTrans += 0.005f;
+	}
+
 	/*
 	Draw Cloud
 	*/
@@ -225,35 +263,19 @@ void display()
 	myBuilding();
 
 	// Draw blades
-	glPushMatrix();
-	myBlade(0 + spd);
-	glPopMatrix();
-
-	glPushMatrix();
-	myBlade(90 + spd);
-	glPopMatrix();
-
-	glPushMatrix();
-	myBlade(180 + spd);
-	glPopMatrix();
-
-	glPushMatrix();
-	myBlade(270 + spd);
-	glPopMatrix();
+	myBlade(xDeg, 0 + spd);
+	myBlade(xDeg, 90 + spd);
+	myBlade(xDeg, 180 + spd);
+	myBlade(xDeg, 270 + spd);
 
 	// Draw Bones
-	glPushMatrix();
-	myBone(0 + spd);
-	glPopMatrix();
-
-	glPushMatrix();
-	myBone(90 + spd);
-	glPopMatrix();
+	myBone(xDeg, 0 + spd);
+	myBone(xDeg, 90 + spd);
+	myBone(xDeg, 180 + spd);
+	myBone(xDeg, 270 + spd);
 
 	// Draw Spinner
-	glPushMatrix();
-	mySpinner(0 + spd);
-	glPopMatrix();
+	mySpinner(xDeg, 0 + spd);
 
 	// Prevent the spd variable's value becaming too large due to acceleration by using modulus
 	spd = fmod((spd + acc), 360.0f);
